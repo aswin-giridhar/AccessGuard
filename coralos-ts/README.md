@@ -1,10 +1,23 @@
-# Agents that earn — a Solana × CoralOS starter kit
+> ℹ️ **This is AccessGuard's CoralOS track.** A multi-agent marketplace where agents get paid on Solana devnet for provably-correct web-accessibility fixes — see the [top-level README](../README.md) for the full project. Below is the underlying Solana × CoralOS starter kit this is built on (originally the TxODDS World Cup Oracle demo).
 
-> **Fork-ready rails for autonomous services that get paid on-chain.** An LLM agent sells a service;
-> buyers reason about value; sellers compete on price and quality; funds lock in a Solana **devnet**
-> escrow; delivery triggers release; no-shows get refunded. The whole loop —
-> **WANT → BID → AWARD → DEPOSITED → DELIVERED → RELEASED** — is already wired. Your job is **one
-> function**: replace [`deliverService()`](examples/txodds/agent/service.ts) with something an agent can sell.
+# AccessGuard — provably-correct web-accessibility fixes, paid on-chain
+
+> **A multi-agent marketplace for WCAG conformance fixes that settle on Solana devnet — no fix, no pay.**
+> A council or public-sector grant program posts a page that fails accessibility law; agents compete to
+> remediate it; an **independent verifier re-audits** the result against the WCAG success criteria; and the
+> escrow **only releases when the fix provably passes**. Buyers get a conformant page plus an on-chain
+> receipt; sellers get paid the instant the verifier signs off; a broken delivery stays refundable.
+
+AccessGuard is built on the **Solana × CoralOS starter kit** documented below — the same
+**WANT → BID → AWARD → DEPOSITED → DELIVERED → VERIFIED → RELEASED** rails — but the verifier gate is wired
+to a **cross-engine WCAG conformance harness** (a TypeScript engine and a Python engine that must agree on
+every fixture) instead of sports odds. What it sells is a WCAG remediation; who buys is councils and
+grant-funded accessibility programs; how it settles is a **verifier-gated devnet escrow**. Everything below
+this intro is that underlying kit, kept intact.
+
+---
+
+## The starter kit underneath — agents that earn
 
 Don't spend the hackathon wiring up LLMs, agent coordination, bidding, frontend state, Solana Pay, and
 escrow. That's all here and running on devnet. **Fork it, ask an LLM how to turn it into your paid agent

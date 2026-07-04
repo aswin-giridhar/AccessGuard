@@ -115,15 +115,17 @@ async function main() {
   // deterministic VERIFIED pass). Override with SETTLEMENT_MODE=arbiter in .env if you hold the config key.
   const settlement = (env.SETTLEMENT_MODE ?? 'direct').toLowerCase() === 'arbiter' ? 'arbiter' : 'direct'
 
+  // ACCESSGUARD_TIER gives the two personas a real product difference (not just price): the generalist
+  // clears the critical/serious barriers; the pro fixes everything, delivering a higher WCAG score.
   const sellerAgents = [
     agent('seller-a11y', {
       SELLER_WALLET: str(wallet), SOLANA_RPC_URL: str(rpc), AGENT_NAME: str('seller-a11y'),
-      SERVICES: str('accessguard'), SETTLEMENT_MODE: str(settlement),
+      SERVICES: str('accessguard'), ACCESSGUARD_TIER: str('generalist'), SETTLEMENT_MODE: str(settlement),
       ...(lazy ? { ACCESSGUARD_LAZY: str('1') } : {}), ...llmOpts,
     }),
     agent('seller-a11y-pro', {
       SELLER_WALLET: str(wallet), SOLANA_RPC_URL: str(rpc), AGENT_NAME: str('seller-a11y-pro'),
-      SERVICES: str('accessguard'), SETTLEMENT_MODE: str(settlement), ...llmOpts,
+      SERVICES: str('accessguard'), ACCESSGUARD_TIER: str('pro'), SETTLEMENT_MODE: str(settlement), ...llmOpts,
     }),
   ]
 
@@ -144,6 +146,9 @@ async function main() {
             BUYER_MAX_SOL: f64(Number(env.BUYER_MAX_SOL ?? '0.001')),
             BUYER_SERVICE: str('accessguard'),
             BUYER_ARGS: str(pages),
+            // Cap the market so a demo run settles a finite number of rounds instead of spending
+            // devnet SOL forever. Override with ACCESSGUARD_MAX_ROUNDS in .env (0 = unlimited).
+            BUYER_MAX_ROUNDS: str(String(env.ACCESSGUARD_MAX_ROUNDS ?? '12')),
             MARKET_SELLERS: str(sellers.join(',')),
             // Release is gated on the independent verifier's VERIFIED pass (deterministic WCAG re-audit).
             VERIFIER_AGENT: str('verifier-agent'),

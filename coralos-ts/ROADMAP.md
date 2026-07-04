@@ -1,3 +1,5 @@
+> ℹ️ **Inherited starter-kit documentation.** AccessGuard is the product built on this Solana × CoralOS kit — start at the [top-level README](../README.md). This file documents the underlying kit (originally the TxODDS World Cup Oracle demo), which AccessGuard reuses as its settlement + coordination rails.
+
 # ROADMAP.md — the agent-commerce layer: build record + what's next
 
 > **Status: phases 0–6 below are shipped** (per-phase ✅ notes inline), and the loop is

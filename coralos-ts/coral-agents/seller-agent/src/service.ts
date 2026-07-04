@@ -1,10 +1,14 @@
 /**
  * Seller services.
  *
- * `txline` — the headline product: a verified TxLINE fair-line read for a fixture.
- * `freelance` — the generic LLM worker (the freelancer market's baseline seller): the brief goes to
- * the LLM, the deliverable comes back as JSON. Without an LLM key it returns an error payload, which
- * the verifier fails and the buyer refuses to pay for — no-capability sellers don't get released.
+ * `accessguard` — the headline product: audit a page against the deterministic WCAG engine, remediate
+ * it, and return the WCAG-fixed HTML. The verifier re-audits independently and only a genuine,
+ * regression-free improvement releases the escrow. Seller quality tiers (generalist vs pro) make the
+ * personas compete on value, not just price.
+ * `freelance` — the generic LLM worker: the brief goes to the LLM, the deliverable comes back as JSON.
+ * Without an LLM key it returns an error payload, which the verifier fails — no-capability sellers
+ * don't get released.
+ * `txline` — the inherited starter-kit example (a verified TxLINE fair-line read for a fixture).
  */
 import { complete, parseJsonReply, resolvePage, audit, remediate } from '@pay/agent-runtime'
 
@@ -12,13 +16,11 @@ const TXLINE_BASE = process.env.TXLINE_BASE_URL || 'https://txline-dev.txodds.co
 
 export async function deliverService(request: string): Promise<string> {
   const [first, ...rest] = request.trim().split(/\s+/).filter(Boolean)
-  const service = (first ?? 'txline').toLowerCase()
-  if (service === 'freelance') return freelanceService(rest.join(' '))
+  const service = (first ?? 'accessguard').toLowerCase()
   if (service === 'accessguard') return accessguardService(rest.join(' '))
-  if (service !== 'txline') {
-    return JSON.stringify({ error: 'unsupported service', service, supported: ['txline', 'freelance', 'accessguard'] })
-  }
-  return txlineService(rest.join(' '))
+  if (service === 'freelance') return freelanceService(rest.join(' '))
+  if (service === 'txline') return txlineService(rest.join(' '))
+  return JSON.stringify({ error: 'unsupported service', service, supported: ['accessguard', 'freelance', 'txline'] })
 }
 
 /**
@@ -32,21 +34,30 @@ export async function deliverService(request: string): Promise<string> {
  */
 async function accessguardService(arg: string): Promise<string> {
   const page = (arg || '').trim()
+  // Seller quality tier — a real product difference, not just a price tag:
+  //   'generalist' (seller-a11y)     covers the high-impact critical/serious barriers;
+  //   'pro'        (seller-a11y-pro)  fixes everything, including lower-severity issues.
+  // Both still clear the verifier gate (resolved > 0, no regressions); the premium tier just
+  // delivers a higher score, so the buyer's best-value choice genuinely trades price vs. quality.
+  const tier = (process.env.ACCESSGUARD_TIER || 'pro').toLowerCase()
   try {
     const original = await resolvePage(page)
     if (process.env.ACCESSGUARD_LAZY === '1') {
-      return JSON.stringify({ service: 'accessguard', arg: page, scoreBefore: 0, scoreAfter: 0, resolved: [], fixed: original })
+      return JSON.stringify({ service: 'accessguard', arg: page, tier, scoreBefore: 0, scoreAfter: 0, resolved: [], fixed: original })
     }
     const before = audit(original)
-    const { html: fixed, resolved } = remediate(original, before.violations)
+    const toFix = (tier === 'generalist' || tier === 'basic')
+      ? before.violations.filter((v) => v.severity === 'critical' || v.severity === 'serious')
+      : before.violations
+    const { html: fixed, resolved } = remediate(original, toFix)
     const after = audit(fixed)
     return JSON.stringify({
-      service: 'accessguard', arg: page,
+      service: 'accessguard', arg: page, tier,
       scoreBefore: before.score, scoreAfter: after.score,
       resolved, remaining: after.violations.length, fixed,
     })
   } catch (e) {
-    return JSON.stringify({ service: 'accessguard', arg: page, error: `remediation failed: ${(e as Error).message}` })
+    return JSON.stringify({ service: 'accessguard', arg: page, tier, error: `remediation failed: ${(e as Error).message}` })
   }
 }
 

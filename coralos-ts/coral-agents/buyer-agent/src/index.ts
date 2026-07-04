@@ -144,6 +144,8 @@ await startCoralAgent({ agentName: process.env.AGENT_NAME ?? 'buyer-agent' }, as
     await ensureArbiterFunded(buyer, arbiter.publicKey, RPC)
   }
   let round = 0
+  // 0 = unlimited (kit default); the accessguard launcher sets this to bound demo devnet spend.
+  const MAX_ROUNDS = Number(process.env.BUYER_MAX_ROUNDS ?? '0') || 0
   let spentSol = 0
   let lastDepositAt: number | undefined
   // Wins so far this session, per seller — folded into selection so close calls spread across sellers.
@@ -168,6 +170,10 @@ await startCoralAgent({ agentName: process.env.AGENT_NAME ?? 'buyer-agent' }, as
         if (next.note) console.error(`[buyer] event: ${next.note}`)
       }
       round++
+      if (MAX_ROUNDS && round > MAX_ROUNDS) {
+        console.error(`[buyer] reached BUYER_MAX_ROUNDS=${MAX_ROUNDS} — market complete, stopping.`)
+        break
+      }
       if (trace) console.error(`[buyer] round ${round}: WANT ${service} ${arg} budget=${budget}`)
       await ctx.send(formatWant({ round, service, arg, budgetSol: budget }), thread, SELLERS)
 

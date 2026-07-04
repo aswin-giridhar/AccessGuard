@@ -1,0 +1,31 @@
+{
+  "f1-council.html": {
+    "score": 0,
+    "rules": [
+      "contrast",
+      "control-name",
+      "doc-title",
+      "form-label",
+      "heading-order",
+      "html-lang",
+      "img-alt",
+      "link-name"
+    ]
+  },
+  "f2-clean.html": {
+    "score": 100,
+    "rules": []
+  },
+  "f3-zh-hant.html": {
+    "score": 90,
+    "rules": [
+      "html-lang"
+    ]
+  },
+  "f4-zh-hans.html": {
+    "score": 90,
+    "rules": [
+      "html-lang"
+    ]
+  }
+}

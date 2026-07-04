@@ -43,7 +43,7 @@ setTimeout(() => {
     : platform() === 'darwin' ? ['open', [url]]
     : ['xdg-open', [url]]
   spawn(cmd, args, { shell: true, stdio: 'ignore' })
-  console.log(`\n[txodds] opened ${url} — World Cup Oracle (proxy on :8801 for live data + settle).\n`)
+  console.log(`\n[txodds] opened ${url} — AccessGuard (proxy on :8801 for live data + settle).\n`)
 }, 4000)
 
 const stop = () => { proxy.kill(); web.kill(); process.exit(0) }

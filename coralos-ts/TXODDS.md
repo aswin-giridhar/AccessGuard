@@ -1,3 +1,5 @@
+> ℹ️ **Inherited starter-kit documentation.** AccessGuard is the product built on this Solana × CoralOS kit — start at the [top-level README](../README.md). This file documents the underlying kit (originally the TxODDS World Cup Oracle demo), which AccessGuard reuses as its settlement + coordination rails.
+
 # TXODDS.md — win the $50K TxODDS World Cup hackathon with this kit
 
 > **This kit is built on exactly what the hackathon rewards: TxODDS' live football API, settled on
