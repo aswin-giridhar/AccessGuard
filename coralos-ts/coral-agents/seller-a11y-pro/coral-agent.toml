@@ -20,6 +20,7 @@ SERVICES = { type = "string", default = "accessguard", description = "Inventory 
 FLOOR_SOL = { type = "f64", default = 0.0006, description = "Cost floor - premium, audit-grade positioning" }
 PERSONA = { type = "string", default = "a premium accessibility specialist agent; audit-grade remediation with regression guarantees, prices for assurance", description = "Bidding persona (LLM system prompt)" }
 ACCESSGUARD_LAZY = { type = "string", default = "", description = "Set to 1 to deliver the page UNCHANGED (a no-op the verifier fails -> escrow refunds)" }
+ACCESSGUARD_TIER = { type = "string", default = "pro", description = "generalist (fixes critical/serious barriers) | pro (fixes everything) - a real quality tier the buyer trades against price" }
 SOLANA_RPC_URL = { type = "string", default = "", description = "Solana RPC URL (devnet)" }
 SETTLEMENT_MODE = { type = "string", default = "arbiter", description = "arbiter (default) | direct legacy base escrow" }
 ESCROW_DEADLINE_SECS = { type = "f64", default = 600, description = "Refund deadline for escrow deposits (seconds)" }

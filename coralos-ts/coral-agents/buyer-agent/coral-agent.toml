@@ -24,6 +24,7 @@ BUYER_MAX_SOL = { type = "f64", default = 0.001, description = "Budget cap per r
 BUYER_SERVICE = { type = "string", default = "txline", description = "Service to shop for (sellers self-select on it)" }
 BUYER_ARG = { type = "string", default = "edge 18175397", description = "Argument passed to the winning seller's deliverService" }
 BUYER_ARGS = { type = "string", default = "", description = "Comma-separated args to rotate through, one per round (overrides BUYER_ARG)" }
+BUYER_MAX_ROUNDS = { type = "string", default = "0", description = "Cap the number of market rounds then stop (0 = unlimited). The accessguard launcher sets this to bound demo devnet spend." }
 MARKET_SELLERS = { type = "string", default = "seller-worldcup,seller-fast,seller-premium", description = "Comma-separated seller names in the market thread" }
 BID_WINDOW_MS = { type = "f64", default = 5000, description = "How long to collect competing bids each round" }
 CYCLE_INTERVAL_MS = { type = "f64", default = 30000, description = "Delay between market rounds" }
