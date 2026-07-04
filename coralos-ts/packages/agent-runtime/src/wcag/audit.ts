@@ -112,6 +112,22 @@ export function audit(html: string): WcagReport {
     }
   }
 
+  // 1.3.1 — heading levels must not skip (e.g. h1 -> h3). Ported from the Python engine
+  // so both tracks' oracles score identically.
+  let prevLevel = 0
+  for (const el of els) {
+    const tag = tagOf(el)
+    const m = /^h([1-6])$/.exec(tag)
+    if (!m) continue
+    const level = Number(m[1])
+    if (prevLevel && level > prevLevel + 1) {
+      add('heading-order', '1.3.1 Info and Relationships', 'moderate', loc.get(el) ?? `${tag}[?]`,
+        `Heading level jumps from h${prevLevel} to h${level}, skipping a level.`,
+        { expected: String(prevLevel + 1) })
+    }
+    prevLevel = level
+  }
+
   const penalty = Math.min(violations.reduce((s, v) => s + weight(v.rule), 0), 100)
   return { violations, score: 100 - penalty }
 }

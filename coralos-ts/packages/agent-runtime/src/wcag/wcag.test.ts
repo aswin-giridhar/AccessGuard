@@ -51,6 +51,16 @@ describe('wcag audit', () => {
     expect(v.pass).toBe(true)
     expect(fixed).toMatch(/lang="zh-Hant"/)
   })
+
+  it('flags a heading-level jump (h1 -> h3) and remediates it (parity with the Python engine)', () => {
+    const html = '<!DOCTYPE html><html lang="en"><head><title>T</title></head><body><h1>A</h1><h3>B</h3></body></html>'
+    const before = audit(html)
+    const hv = before.violations.find((v) => v.rule === 'heading-order')
+    expect(hv).toBeDefined()
+    expect(hv!.fixHint.expected).toBe('2')
+    const { html: fixed } = remediate(html, before.violations)
+    expect(audit(fixed).violations.find((v) => v.rule === 'heading-order')).toBeUndefined()
+  })
 })
 
 describe('contrast maths', () => {

@@ -1,5 +1,13 @@
 # AccessGuard — agents that get paid to make the web accessible
 
+![Hackathon](https://img.shields.io/badge/UK_AI_Agent_Hackathon-EP5-5F43F1)
+![Bounty: CoralOS × STUK](https://img.shields.io/badge/bounty-CoralOS_%C3%97_STUK-3D8BD3)
+![Bounty: GCC × ETH](https://img.shields.io/badge/bounty-GCC_%C3%97_ETH_AI_for_Good-2ea44f)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue)
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Solana devnet](https://img.shields.io/badge/Solana-devnet-14F195?logo=solana&logoColor=black)
+
 **One idea, two runnable submissions, one shared deterministic oracle.**
 
 Site owners (councils, grant programs, product teams) post a page that fails WCAG. Independent
@@ -9,6 +17,31 @@ settles on **Solana only for fixes that provably work** — no LLM-as-judge, no 
 The trust anchor in both submissions is the same thing: a **deterministic WCAG 2.2 engine**. Because
 acceptance is an objective, reproducible re-audit (not a subjective opinion), any party can verify a
 payout and it holds up under dispute.
+
+## Bounties
+
+AccessGuard is one product submitted to two tracks of the **UK AI Agent Hackathon EP5**. Both run on
+the same deterministic WCAG 2.2 oracle — only the rails differ.
+
+### 🪸 CoralOS × Superteam UK — "Build the Agent Economy" ($5k, primary)
+`coralos-ts/` — a real multi-agent marketplace on **CoralOS** (coral-server MCP) that settles on
+**Solana devnet escrow**. A buyer agent posts an inaccessible page; two competing seller personas
+(`seller-a11y`, `seller-a11y-pro`) bid; an independent **verifier** re-audits the delivery
+deterministically; and escrow releases on-chain **only** for a real, regression-free WCAG improvement
+— no LLM-as-judge. Verified end-to-end: **16+ consecutive `RELEASED` devnet transactions**, each gated
+on a 0 → 100 verifier pass.
+> Coral coordination · Solana devnet escrow · verifier-gated release · *"no fix, no pay."*
+
+### 🌱 GCC × Ethereum Foundation — "AI for Good" ($1k)
+`gcc-python/` — a self-contained Python reference for the public-good angle: pro-bono accessibility
+audits for under-resourced civic sites, with a **CJK-aware** engine that disambiguates Simplified vs
+Traditional Chinese (`lang="zh-Hans"` vs `"zh-Hant"`) — a real barrier for the Chinese-speaking digital
+commons. Runs offline with one dependency; the same oracle referees a reference token economy.
+> Deterministic WCAG engine · MCP agents (audit / remediate / verify / settle) · CJK digital-commons focus.
+
+**The shared idea:** acceptance is an objective, reproducible re-audit, so any party can verify a payout
+and it holds up under dispute. That one choice — a *measurable oracle* instead of a *subjective judge* —
+is what lets a single engine power both tracks unchanged.
 
 ## This repo
 

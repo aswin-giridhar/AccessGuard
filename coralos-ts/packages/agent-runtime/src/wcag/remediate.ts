@@ -63,6 +63,9 @@ export function remediate(html: string, violations: WcagViolation[]): Remediatio
           const bg = parseColor(v.fixHint.bg) || [255, 255, 255]
           setStyleProp(el, 'color', bestContrastColor(bg))
           ok = true
+        } else if (v.rule === 'heading-order') {
+          const expected = v.fixHint.expected
+          if (expected) { el.rawTagName = `h${expected}`; ok = true }
         }
       }
     }

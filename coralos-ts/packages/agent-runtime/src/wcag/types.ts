@@ -8,6 +8,7 @@ export type WcagRule =
   | 'control-name'
   | 'link-name'
   | 'contrast'
+  | 'heading-order'
 
 export interface WcagViolation {
   rule: WcagRule
@@ -31,6 +32,7 @@ export const RULE_WEIGHTS: Record<WcagRule, number> = {
   'link-name': 20,
   'html-lang': 10,
   'doc-title': 10,
+  'heading-order': 15,
 }
 
 export function weight(rule: WcagRule): number {
