@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!-- 中文公共服務頁面示例（含刻意植入的無障礙缺陷）。
+     A Chinese-language public-service page seeded with WCAG violations, including a
+     lang="en" MISMATCH on Chinese content — a common real-world barrier for zh users. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <h1>市政線上服務</h1>
+
+  <p>歡迎使用市民線上服務平台。</p>
+
+  <img src="city-logo.png">
+
+  <h3>申請居民停車證</h3>
+  <p style="color:#9a9a9a; background-color:#ffffff;">
+    請填寫下方表單提出申請，申請將於五個工作天內處理完成。
+  </p>
+
+  <form action="/apply" method="post">
+    <input type="text" name="full-name" placeholder="姓名">
+    <input type="email" name="email" placeholder="電子郵件">
+    <button></button>
+  </form>
+
+  <p>需要協助嗎？<a href="/contact"></a></p>
+
+  <h3>市政稅費</h3>
+  <p style="color:#bcbcbc; background-color:#f5f5f5;">
+    查詢您的市政稅級距並設定自動扣款。
+  </p>
+</body>
+</html>

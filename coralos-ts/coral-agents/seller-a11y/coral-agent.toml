@@ -1,0 +1,35 @@
+# AccessGuard-market persona: the baseline accessibility remediator. Reuses the seller-agent image;
+# the deliverable comes from the deterministic WCAG engine (deliverService -> accessguard).
+edition = 4
+
+[agent]
+name = "seller-a11y"
+version = "0.1.0"
+description = "Accessibility marketplace seller. Bids on `accessguard` WANTs and, on a funded escrow, returns WCAG-fixed HTML produced by the deterministic engine (audit -> remediate)."
+summary = "The generalist a11y fixer: cheap, fast, covers the whole seeded WCAG ruleset."
+readme = "Bids in the shared market thread when the WANT is an `accessguard` service, and on a funded escrow delivers {'fixed': <html>, 'resolved': [...]}. Same image as seller-agent; SERVICES=accessguard shapes it. The verifier re-audits the delivery; only a regression-free improvement releases the escrow."
+
+[agent.license]
+type = "spdx"
+expression = "MIT"
+
+[options]
+SELLER_WALLET = { type = "string", description = "Devnet wallet pubkey that receives payments" }
+AGENT_NAME = { type = "string", default = "seller-a11y", description = "Market identity (matches the registry name)" }
+SERVICES = { type = "string", default = "accessguard", description = "Inventory - this persona sells accessibility remediation" }
+FLOOR_SOL = { type = "f64", default = 0.0003, description = "Cost floor - a full-page audit + remediation pass" }
+PERSONA = { type = "string", default = "a fast generalist accessibility-remediation agent; fixes the whole WCAG ruleset in one deterministic pass, prices low", description = "Bidding persona (LLM system prompt)" }
+ACCESSGUARD_LAZY = { type = "string", default = "", description = "Set to 1 to deliver the page UNCHANGED (a no-op the verifier fails -> escrow refunds)" }
+SOLANA_RPC_URL = { type = "string", default = "", description = "Solana RPC URL (devnet)" }
+SETTLEMENT_MODE = { type = "string", default = "arbiter", description = "arbiter (default) | direct legacy base escrow" }
+ESCROW_DEADLINE_SECS = { type = "f64", default = 600, description = "Refund deadline for escrow deposits (seconds)" }
+HARNESS = { type = "string", default = "node-llm", description = "The harness doing the work (packages/harness-runtime)" }
+ANTHROPIC_API_KEY = { type = "string", default = "", description = "Anthropic key for bids" }
+OPENAI_API_KEY = { type = "string", default = "", description = "OpenAI key; set LLM_PROVIDER=openai to use it" }
+VENICE_API_KEY = { type = "string", default = "", description = "Venice AI key (OpenAI-compatible, free credits); set LLM_PROVIDER=venice to use it" }
+LLM_PROVIDER = { type = "string", default = "", description = "anthropic (default) | openai | venice" }
+LLM_MODEL = { type = "string", default = "", description = "Override the LLM model id" }
+TRACE = { type = "string", default = "", description = "Set to 1 to log settlement checks" }
+
+[runtimes.docker]
+image = "seller-agent:0.1.0"

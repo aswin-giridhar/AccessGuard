@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+**/node_modules/
+.venv/
+venv/
+
+# Builds
+dist/
+build/
+target/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Secrets / env — NEVER commit
+.env
+.env.local
+.env.*.local
+**/.env
+**/.env.local
+WALLETS.txt
+**/WALLETS.txt
+*.keypair
+id.json
+*-keypair.json
+
+# Solana / Anchor
+.anchor/
+test-ledger/
+
+# Logs / OS
+*.log
+.DS_Store
+Thumbs.db

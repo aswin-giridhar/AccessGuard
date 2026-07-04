@@ -1,0 +1,2 @@
+# (b) CoralOS / MCP registration layer
+mcp[cli]>=1.0

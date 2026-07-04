@@ -1,0 +1,63 @@
+{
+  "name": "accessguard-exchange",
+  "version": "0.1.0",
+  "description": "A zero-trust accessibility bounty marketplace: agents audit, compete to remediate, and settle on Solana only for fixes a deterministic verifier accepts.",
+  "author": "AccessGuard Exchange",
+  "license": "MIT",
+  "runtime": {
+    "type": "mcp",
+    "transport": "stdio",
+    "entrypoint": "python mcp_server.py",
+    "working_dir": ".",
+    "python": ">=3.10"
+  },
+  "settlement": {
+    "chain": "solana",
+    "cluster": "devnet",
+    "unit": "SOL",
+    "note": "Payout is gated on an objective WCAG re-audit; see chain/solana_client.py"
+  },
+  "skills": [
+    {
+      "id": "crawl",
+      "tool": "crawl",
+      "summary": "Fetch a live URL's HTML for auditing.",
+      "inputs": ["url:string"],
+      "outputs": ["url:string", "html:string"]
+    },
+    {
+      "id": "audit",
+      "tool": "audit",
+      "summary": "Deterministic WCAG 2.2 audit — the trustless referee that prices bounties.",
+      "inputs": ["html:string", "url:string?"],
+      "outputs": ["score:int", "violations:object[]"]
+    },
+    {
+      "id": "remediate",
+      "tool": "remediate",
+      "summary": "Propose patches for violations; competing suppliers specialise by skill.",
+      "inputs": ["html:string", "violations:object[]", "skill:string?"],
+      "outputs": ["patches:object[]"]
+    },
+    {
+      "id": "verify",
+      "tool": "verify",
+      "summary": "Objectively verify a patch (claimed fix gone + no regressions).",
+      "inputs": ["patched_html:string", "target_key:string", "baseline:object"],
+      "outputs": ["accepted:bool", "reason:string", "after_score:int"]
+    },
+    {
+      "id": "run_marketplace",
+      "tool": "run_marketplace",
+      "summary": "Run the full audit -> compete -> verify -> settle loop.",
+      "inputs": ["html:string?", "url:string?"],
+      "outputs": ["baseline:object", "final:object", "awards:object[]", "escrow:object"]
+    }
+  ],
+  "coordination": {
+    "model": "zero-trust",
+    "referee": "deterministic WCAG audit engine (engine/wcag.py)",
+    "payout_rule": "release bounty iff verify() accepts a candidate patch"
+  },
+  "tags": ["accessibility", "wcag", "agent-economy", "solana", "coralos", "mcp", "ai-for-good"]
+}

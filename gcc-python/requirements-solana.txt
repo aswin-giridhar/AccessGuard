@@ -1,0 +1,3 @@
+# (a) Live Solana devnet settlement (offline mock works without these)
+solana>=0.34
+solders>=0.21

@@ -1,0 +1,8 @@
+# Core engine + agents — the deterministic marketplace runs on this alone.
+beautifulsoup4>=4.12
+
+# Optional feature deps live in separate files so the core stays light:
+#   pip install -r requirements-web.txt      # (d) web UI:        fastapi + uvicorn
+#   pip install -r requirements-mcp.txt      # (b) CoralOS/MCP:   mcp[cli]
+#   pip install -r requirements-solana.txt   # (a) live devnet:   solana + solders
+# The live-URL crawler (c) is stdlib-only (no extra install).
