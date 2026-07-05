@@ -7,7 +7,7 @@
  * Settlement is arbiter-gated by default. The buyer opens escrow through the arbiter wrapper, then the
  * seller verifies the funded escrow using the vault PDA before delivering the TxODDS read.
  */
-import { createHash } from 'node:crypto'
+import { createHash, randomBytes } from 'node:crypto'
 import type { Program } from '@coral-xyz/anchor'
 import { PublicKey } from '@solana/web3.js'
 import {
@@ -34,8 +34,12 @@ const awarded = new Map<string, { round: number } & Quote>()
 let program: Program | null = null
 const escrowProgram = async (): Promise<Program> => (program ??= await makeProgram(RPC))
 
+// Unique per seller process, so an escrow reference never collides with a dangling PDA left by an
+// earlier aborted run — a reused reference fails the deposit with a 0x0 "account already in use".
+const SESSION_NONCE = randomBytes(8).toString('hex')
+
 function boundReference(order: Quote & { round: number }): string {
-  const preimage = `txodds-coral:${order.round}:${order.service}:${order.arg}:${SELLER_WALLET}:${order.priceSol}`
+  const preimage = `txodds-coral:${SESSION_NONCE}:${order.round}:${order.service}:${order.arg}:${SELLER_WALLET}:${order.priceSol}`
   return new PublicKey(createHash('sha256').update(preimage).digest()).toBase58()
 }
 
