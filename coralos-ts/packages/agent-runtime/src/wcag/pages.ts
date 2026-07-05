@@ -11,6 +11,7 @@
 export const FIXTURES: Record<string, string> = {
   'council-parking': `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>
 <h1>Resident Parking Permit</h1>
+<h3>How to apply</h3>
 <img src="council-logo.png">
 <p style="color:#9a9a9a; background-color:#ffffff;">Apply below. Processed within 5 working days.</p>
 <form action="/apply" method="post">
@@ -23,6 +24,7 @@ export const FIXTURES: Record<string, string> = {
 
   'nhs-appointment': `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Book appointment</title></head><body>
 <h1>Book a GP Appointment</h1>
+<h3>Before you book</h3>
 <img src="nhs-banner.jpg">
 <form action="/book">
   <input type="text" name="nhs-number" placeholder="NHS number">
@@ -34,6 +36,7 @@ export const FIXTURES: Record<string, string> = {
 
   'tax-portal': `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"></head><body>
 <h1>Council Tax Portal</h1>
+<h3>Your account</h3>
 <p style="color:#c0c0c0; background-color:#ffffff;">View your band and set up a direct debit.</p>
 <form action="/pay">
   <input type="text" name="account-number" placeholder="Account number">
